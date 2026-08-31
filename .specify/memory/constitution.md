@@ -1,22 +1,19 @@
 <!--
 Sync Impact Report
 ==================
-Version change: (none) → 1.0.0
-Rationale: Initial ratification. No prior constitution existed at
-.specify/memory/constitution.md, so this is the first adopted version.
+Version change: 1.0.0 → 2.0.0
+Rationale: MAJOR. 원칙 II의 유일한 예외였던 "SDM 워크스페이스의 연구용 반출물"이
+제거되었다. 이는 원칙의 하위 호환을 깨는 재정의다. 기존 헌법 아래에서 적법했던
+설계(병원 밖 반출 경로를 전제한 승인·패키지 기능)가 이제 위헌이 되므로 MINOR가 아닌
+MAJOR로 올린다.
 
-Modified principles: (none — initial adoption)
+Modified principles:
+- II. 데이터 주권과 PHI 경계 (NON-NEGOTIABLE) — 제목 유지, 내용 재정의.
+  가명화된 연구용 SDM을 포함해 예외 없는 원외 반출 금지로 전환하고, 연구 데이터
+  제공은 병원 내부망 안에서만 이루어지는 "내부 제공"으로 재정의했다.
 
-Added sections:
-- Core Principles
-  - I. 폐쇄망 자립성 (NON-NEGOTIABLE)
-  - II. 데이터 주권과 PHI 경계 (NON-NEGOTIABLE)
-  - III. 로그·리포트 마스킹
-  - IV. 제어 평면과 데이터 평면 분리
-  - V. 실행 추적성과 버전 기록
-- 명명 규칙 (Naming Conventions)
-- 준수 게이트 (Compliance Gates)
-- Governance
+Added sections: (none — 기존 섹션 내 규칙 추가만 있음)
+- 준수 게이트에 "내부 제공 경계 증명" 항목 추가
 
 Removed sections: (none)
 
@@ -27,10 +24,21 @@ constitution at runtime):
 - .specify/templates/tasks-template.md
 - .specify/templates/checklist-template.md
 
+Downstream artifacts now in conflict with this version (not modified here):
+- specs/004-workspace-pipelines/spec.md — User Story 5 "반출 승인과 패키지"와
+  9단계 마지막 단계가 원외 반출을 전제한다. 내부 제공 승인·패키지로 재정의 필요.
+- specs/001-workspace-management/spec.md (L328-332),
+  specs/001-workspace-management/checklists/requirements.md (L69-70),
+  specs/004-workspace-pipelines/checklists/requirements.md (L77-84) —
+  "연구용 SDM만 반출 대상" 해석에 기대고 있어 갱신 필요.
+
 Deferred items / TODOs:
 - TODO(PREFECT_SERVING_EXCEPTION): 원칙 IV는 "모델 서빙·학습은 Prefect 밖"을 규정하되
   18장 미결 1을 유일한 예외 창구로 참조한다. 18장 문서가 이 저장소에 아직 없어 예외의
   범위·승인 절차를 확정하지 못했다. 18장 미결 1이 확정되면 원칙 IV를 개정해야 한다.
+- TODO(INTERNAL_RELEASE_PROCEDURE): 내부 제공의 승인 주체와 수령 경로(내부망 내 어떤
+  저장소·워크스페이스로 전달되는지)는 원칙 II가 경계만 정하고 절차는 정하지 않는다.
+  해당 절차는 기능 스펙에서 확정한다.
 -->
 
 # EVIX Site Stack Constitution
@@ -59,17 +67,26 @@ Rationale: 병원 내부망은 물리적으로 인터넷과 분리된다. 외부
 
 ### II. 데이터 주권과 PHI 경계 (NON-NEGOTIABLE)
 
-환자 데이터는 병원 밖으로 나가지 않으며, PHI 접근은 계층별로 제한된다.
+환자 데이터는 예외 없이 병원 밖으로 나가지 않으며, PHI 접근은 계층별로 제한된다.
 
-- 환자 데이터는 어떤 경로로도 병원 밖으로 나가서는 안 된다(MUST NOT). 유일한 예외는 SDM
-  워크스페이스의 연구용 반출물이며, 이 경우 별도 통제 절차를 반드시 거쳐야 한다(MUST).
+- 환자 데이터는 어떤 경로로도 병원 밖으로 나가서는 안 된다(MUST NOT). **예외는 없다.**
+  가명처리·비식별 처리를 거친 연구용 SDM 산출물도 동일하게 원외 반출 금지 대상이다
+  (MUST NOT). 가명처리는 원내 사용의 전제 조건이지 원외 반출의 근거가 아니다.
+- 연구용 SDM 산출물은 병원 내부망 안에서만 연구자에게 **내부 제공**되어야 한다(MUST).
+  제공 대상 저장소·워크스페이스·전달 경로는 전부 원칙 I의 폐쇄망 안에 있어야 한다(MUST).
+- 데이터를 병원 밖 목적지(외부 네트워크, 외부 저장소, 반출용 물리 매체)로 내보내는
+  기능·경로·API는 워크스페이스와 계층을 불문하고 구현해서는 안 된다(MUST NOT).
+  "반출"이라는 이름을 쓰는 기존·신규 기능은 내부 제공으로 재정의되거나 폐기되어야 한다(MUST).
 - `{ws}_landing`, `{ws}_work` 계층은 제한 롤만 접근할 수 있어야 한다(MUST).
 - SDM 워크스페이스는 `{ws}_mart`까지 실명 기반이므로 **전 계층**이 제한 대상이다(MUST).
-- 반출 대상이 될 수 있는 것은 연구용 SDM뿐이다. 그 외 워크스페이스·계층의 반출 기능을
-  구현해서는 안 된다(MUST NOT).
+- 가명처리와 재식별 위험 점검은 내부 제공의 통제 게이트로 유지되어야 한다(MUST).
+  원외 반출이 사라졌다고 해서 이 게이트를 생략해서는 안 된다(MUST NOT).
 
-Rationale: PHI 노출은 되돌릴 수 없는 사고다. 경계를 계층과 워크스페이스 단위로 못 박아야
-접근 제어를 코드와 롤 정의에서 검증할 수 있다.
+Rationale: PHI 노출은 되돌릴 수 없는 사고다. 가명화 데이터도 재식별 위험이 0이 아니므로,
+"가명화했으니 밖으로 내보내도 된다"는 예외를 두는 순간 경계는 판단의 문제가 된다. 경계를
+"원외로 나가는 경로가 존재하지 않는다"로 못 박아야 코드와 네트워크 구성에서 검증할 수
+있다. 내부 제공에서도 게이트를 유지하는 이유는, 원내에서도 연구자의 접근 범위가 최소
+필요 범위로 제한되어야 하기 때문이다.
 
 ### III. 로그·리포트 마스킹
 
@@ -107,9 +124,12 @@ Rationale: 경계가 흐려지면 장애 격리와 권한 통제가 동시에 �
 - 모든 Prefect flow run에는 `workspace_id` 태그가 붙어야 한다(MUST). 예외는 없다.
 - AI 컴포넌트의 모든 결과에는 모델 버전과 프롬프트 버전이 함께 기록되어야 한다(MUST).
   둘 중 하나라도 없는 결과는 저장·노출해서는 안 된다(MUST NOT).
+- 연구용 SDM의 내부 제공에는 제공 시점의 데이터 스냅샷 버전, 승인자, 승인 시각, 제공
+  범위가 감사 기록으로 남아야 한다(MUST).
 
 Rationale: 워크스페이스 태그는 PHI 경계와 비용·감사 추적의 기준선이다. 모델·프롬프트
-버전 없이는 AI 결과의 재현과 사후 검증이 불가능하다.
+버전 없이는 AI 결과의 재현과 사후 검증이 불가능하다. 내부 제공 역시 되돌릴 수 없는
+행위이므로 동일한 수준의 기록이 필요하다.
 
 ## 명명 규칙
 
@@ -130,6 +150,9 @@ Rationale: vocabulary·모델 버전을 이름에 박아 두면 재색인과 롤
 - 외부 자산 반입은 오프라인 반입 절차 기록(자산명, 버전, 출처, 반입일)을 남겨야 한다(MUST).
 - 새 워크스페이스·계층·롤을 추가할 때는 원칙 II의 접근 제한 대상 여부를 함께 명시해야
   한다(MUST).
+- 데이터를 내보내는 지점(다운로드, 패키지 생성, 파일 전송, 외부 시스템 연동)을 추가할
+  때는 목적지가 병원 내부망 안이라는 것을 증명해야 한다(MUST). 증명하지 못하면 머지할 수
+  없다.
 - 웹에 새로운 로그·리포트 노출 지점을 추가할 때는 원칙 III의 요약본 제한과 마스킹 적용을
   증명해야 한다(MUST).
 
@@ -147,4 +170,4 @@ Rationale: vocabulary·모델 버전을 이름에 박아 두면 재색인과 롤
 - 준수 검토는 각 기능의 스펙·플랜 단계와 머지 전 리뷰에서 최소 두 번 수행한다.
 - 복잡도는 정당화되어야 한다. 원칙을 우회하려는 설계는 그 자체로 결함이다.
 
-**Version**: 1.0.0 | **Ratified**: 2026-08-28 | **Last Amended**: 2026-08-28
+**Version**: 2.0.0 | **Ratified**: 2026-08-28 | **Last Amended**: 2026-08-31
