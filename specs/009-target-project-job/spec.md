@@ -4,7 +4,23 @@
 
 **Created**: 2026-09-01
 
-**Status**: Draft
+**Status**: Draft (재검토 필요 — 헌법 v4.0.0)
+
+> **재검토 고지 (2026-09-01)**
+>
+> 헌법 II가 v4.0.0으로 개정되어, 환자 데이터를 다루는 워크스페이스는 계열을 불문하고
+> **전 계층이 제한 대상**이고 연구자 접근은 별도의 **연구자용 분석 워크스페이스**를 통해서만
+> 이루어진다.
+>
+> 이 스펙의 User Story 4(프로젝트와 추출물의 소유·접근)는 **직접 위반은 아니다** — 시나리오 7이
+> "프로젝트 멤버이지만 소속 워크스페이스의 해당 계층 접근 롤이 없는 사용자"의 접근을 차단해
+> 계층 통제에 위임하기 때문이다. 다만 **연구자가 데이터 워크스페이스 안에서 프로젝트를 열고
+> 추출물을 다룬다는 전제**가 개정된 원칙 II와 정합하는지는 확정되지 않았다.
+>
+> 확인이 필요한 지점: 프로젝트와 추출물이 데이터 워크스페이스에 남는지, 연구자용 분석
+> 워크스페이스로 옮겨가는지. 이 결정은 `TODO(RESEARCH_ANALYSIS_WORKSPACE)`가 확정될 때
+> 함께 이루어진다. 그전까지 이 스펙의 프로젝트·추출물 모델은 변경하지 않는다.
+
 
 **Input**: User description: "workspace, project, run 개념을 도입합니다. Workspace(SDM/CDM/ADMET)는 파이프라인 정의·매핑 사전·권한 앵커이고, 그 아래에 Target(물리 스키마와 1:1, 장기 유지되는 산출물 — SDM은 sdm 1벌 rolling, CDM은 cdm_rolling(monthly, rolling)과 cdm_2024·cdm_2025…(yearly, frozen)), Project(목적/요청 단위, 산출물은 Extract), Run(실행 1회, target_id 필수 / project_id 선택)을 둔다. Target과 Extract를 구분하라 — 두 개념이 섞이면 보존 정책과 권한이 엉킨다. Target은 Workspace 소유(cdm_2025, sdm), 연 단위 보존 정책, 역할 기반 접근이고, Extract는 Project 소유(가명 SDM 반출본, 코호트 추출본), 요청 종료 후 파기 기한, 프로젝트 멤버만 접근이다. 이 틀에서 SDM은 Target 1개 + 요청별 Extract 다수, CDM은 Target 다수 + 요청별 Extract 다수로 정리된다. 앱 코드에 물리 스키마명을 하드코딩하지 말고 Target 레지스트리 테이블(id, workspace, name, physical_schema, mode(rolling|frozen), cadence(monthly|yearly|on_demand), frozen_at, provenance(vocab_version, dbt_commit, source_extracted_at, cdm_version), retention_until, status)로 관리하라. provenance가 특히 중요하다 — 스냅샷의 존재 이유는 재현성인데, 어떤 vocabulary 버전과 어떤 변환 정의로 만들어졌는지 없으면 스냅샷은 그냥 오래된 데이터다." (후속 지시: 이 모델에서 Run이라 부르던 개념의 이름을 Job으로 바꾼다.)
 

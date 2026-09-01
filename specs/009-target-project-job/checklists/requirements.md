@@ -3,6 +3,7 @@
 **Purpose**: Validate specification completeness and quality before proceeding to planning
 **Created**: 2026-09-01
 **Updated**: 2026-09-01 (Run → Job 명칭 변경 반영)
+**Constitution v4.0.0 (2026-09-01)**: 재검토 필요 — US4의 '연구자가 데이터 워크스페이스 안에서 프로젝트·추출물을 다룬다'는 전제가 개정된 원칙 II와 정합하는지 미확정. 요구사항은 변경하지 않음. spec.md 상단 재검토 고지 참조
 **Feature**: [spec.md](../spec.md)
 
 ## Content Quality

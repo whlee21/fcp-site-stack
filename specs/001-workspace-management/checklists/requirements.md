@@ -2,6 +2,7 @@
 
 **Purpose**: Validate specification completeness and quality before proceeding to planning
 **Created**: 2026-08-28
+**기능 011 + Constitution v4.0.0 (2026-09-01)**: FR-001·FR-008 대체(유형 2종→4종), FR-003 용어 통일(대상 표준 버전→목표 스키마), FR-007 확대·Key Entities 개정(CDM mart도 제한 대상). spec.md 상단 개정 고지 참조
 **Feature**: [spec.md](../spec.md)
 
 ## Content Quality

@@ -3,6 +3,9 @@
 **Purpose**: Validate specification completeness and quality before proceeding to planning
 **Created**: 2026-09-01
 **Updated**: 2026-09-01 (파생 워크스페이스의 참조 자산 원천 확정 — 유형 7종, FR-062까지, clarification 5건 전부 해소)
+**Superseded**: 2026-09-01 — 유형 체계(FR-001, FR-008~016, FR-050)가 기능 011로 대체됨. 나머지 요건은 유효. spec.md 상단 개정 고지의 대응표 참조
+**Constitution v3.0.0 (2026-09-01)**: FR-010(가명 SDM 부분)·FR-038·SC-006 폐기 — 가명 SDM mart 개방 무효. rolling/frozen CDM mart 개방은 유효(TODO(CDM_MART_ASYMMETRY))
+**Constitution v4.0.0 (2026-09-01)**: FR-010·FR-038·SC-006 **전면** 폐기 — v3.0.0의 가명 SDM 부분 폐기가 계열 무관으로 확대되어 rolling/frozen CDM mart 개방까지 폐기. US2 Independent Test·시나리오 2 개정
 **Feature**: [spec.md](../spec.md)
 
 ## Content Quality
