@@ -1,20 +1,20 @@
 <!--
 Sync Impact Report
 ==================
-Version change: 4.1.1 → 4.2.0
-Rationale: MINOR. 명명 규칙에 데이터 계층 이름 항목을 추가하고, 미결이던
-TODO(PSEUDO_LAYER_NAMING)을 `{ws}_pseudo`로 확정했다. 기존 조항을 바꾸지 않으며 위헌이
-되는 설계도 없다 — 이름이 없던 자리에 이름을 부여하는 확장이므로 PATCH가 아니라 MINOR다.
+Version change: 4.2.0 → 4.2.1
+Rationale: PATCH. TODO(PROJECT_EXTRACT_CONSUMER)가 "추출물의 소비자는 연구자"로 확정되어,
+기능 009의 프로젝트·추출물 모델이 기존 "범위 경계 > 연구자 대상 기능" 배제에 포함되는
+것으로 판정되었다. **규칙이 바뀐 것이 아니라 미결이던 적용 여부가 확정된 것**이므로 PATCH다.
+v4.1.0이 이미 연구자 대상 기능을 배제했고, 이 개정은 그 배제가 어디까지 미치는지를
+명시할 뿐이다.
 
 Modified principles: (없음 — 원칙 본문 변경 없음)
 
-Added sections:
-- 명명 규칙 > 데이터 계층 이름 (신규 항목) — `{ws}_landing`, `{ws}_work`, `{ws}_mart`,
-  `{ws}_pseudo`를 확정하고, 타깃의 물리 스키마와의 소유 경계를 명시한다.
-- 명명 규칙 > 계층 용어의 유형별 표에서 SDM ETL 행을 구체적 계층 이름으로 채웠다.
+Added sections: (없음)
+- 범위 경계 > 연구자 대상 기능에 적용 범위 항목 추가 (기능 009 프로젝트·추출물 명시)
 
 Removed sections: (없음)
-- TODO(PSEUDO_LAYER_NAMING) 해소되어 제거
+- TODO(PROJECT_EXTRACT_CONSUMER) 해소되어 제거
 
 Templates requiring review (not modified by this command; they read the
 constitution at runtime):
@@ -23,10 +23,13 @@ constitution at runtime):
 - .specify/templates/tasks-template.md
 - .specify/templates/checklist-template.md
 
-Downstream artifacts updated alongside this version:
-- specs/011-workspace-provisioning/spec.md — 가명 계층군의 물리 계층을 `{ws}_pseudo`로 명시
-- specs/012-pseudonymization-pipeline/spec.md — 누적 영역이 `{ws}_pseudo`임을 명시하고,
-  확정 집합의 물리 스키마는 기능 009의 타깃 레지스트리가 해석한다는 경계를 기록
+Downstream artifacts now out of scope under this version (marked, not deleted):
+- specs/009-target-project-job/spec.md — User Story 4(프로젝트와 추출물의 소유·접근),
+  FR-026~FR-033, FR-045~FR-052, 추출물 보존 FR-037·FR-038, 관련 Key Entities.
+  타깃(Target)과 잡(Job) 모델은 연구자 대상이 아니므로 **범위 안에 그대로 남는다.**
+- specs/013-platform-roles/spec.md — 프로젝트 스코프 롤(프로젝트 개설자, 프로젝트 참여자).
+- specs/010-workspace-type-taxonomy/spec.md — 프로젝트·추출물을 전제한 엣지 케이스와
+  Assumptions 각 1건.
 
 Deferred items / TODOs:
 - TODO(PREFECT_SERVING_EXCEPTION): 원칙 IV는 "모델 서빙·학습은 Prefect 밖"을 규정하되
@@ -36,9 +39,7 @@ Deferred items / TODOs:
   정하고 절차는 정하지 않는다. 해당 절차는 기능 스펙에서 확정한다.
 - TODO(RESEARCH_ANALYSIS_WORKSPACE): 연구자용 분석 워크스페이스는 "범위 경계" 섹션에 따라
   명시적 범위 밖이다. 배제를 해제하려면 헌법을 개정해야 하며, 그때 유형·계층 구성·접근
-  모델·전달 경로를 함께 정한다.
-- TODO(PROJECT_EXTRACT_CONSUMER): 기능 009의 프로젝트·추출물을 누가 소비하는지 확정되지
-  않았다. 연구자라면 범위 경계에 걸리고, 운영 측 인원이라면 걸리지 않는다.
+  모델·전달 경로와 함께 프로젝트·추출물 모델의 부활 여부도 정한다.
 -->
 
 # EVIX Site Stack Constitution
@@ -177,6 +178,15 @@ Rationale: 워크스페이스 태그는 PHI 경계와 비용·감사 추적의 �
 - 이 배제는 원칙 II의 금지를 완화하지 않는다. 강화한다 — 접근 경로가 없어야 할 뿐 아니라,
   이 버전에는 만들 계획도 없다.
 
+**적용 범위.** 어떤 기능이 이 배제에 걸리는지는 **그 산출물을 누가 소비하는가**로 판정한다.
+소비자가 연구자면 배제 대상이고, 운영 측 인원이면 아니다.
+
+- 기능 009의 **프로젝트(Project)와 추출물(Extract)** 은 배제 대상이다(2026-09-01 확정).
+  추출물의 소비자가 연구자이기 때문이다. 프로젝트 개설·멤버십, 추출물 생성·복제·파기,
+  프로젝트 스코프 롤을 설계·구현해서는 안 된다(MUST NOT).
+- 같은 기능의 **타깃(Target)과 잡(Job)** 은 배제 대상이 아니다. 타깃은 워크스페이스가
+  소유하는 장기 산출물이고 잡은 실행 단위로, 둘 다 운영 측 개념이다. 그대로 범위 안에 남는다.
+
 Rationale: 연구자 기능을 "미구현"으로 두면 누군가가 편의를 위해 조회 화면 하나를 붙이는
 일이 언제든 일어날 수 있고, 그 하나가 원칙 II의 경계를 무너뜨린다. 범위 밖으로 못 박으면
 그런 추가는 헌법 개정 사안이 되어 반드시 논의를 거친다. 경계를 지키는 가장 확실한 방법은
@@ -266,4 +276,4 @@ Rationale: v4.0.0이 환자 데이터 워크스페이스의 전 계층을 제한
 - 준수 검토는 각 기능의 스펙·플랜 단계와 머지 전 리뷰에서 최소 두 번 수행한다.
 - 복잡도는 정당화되어야 한다. 원칙을 우회하려는 설계는 그 자체로 결함이다.
 
-**Version**: 4.2.0 | **Ratified**: 2026-08-28 | **Last Amended**: 2026-09-01
+**Version**: 4.2.1 | **Ratified**: 2026-08-28 | **Last Amended**: 2026-09-01

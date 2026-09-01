@@ -3,6 +3,7 @@
 **Purpose**: Validate specification completeness and quality before proceeding to planning
 **Created**: 2026-09-01
 **Updated**: 2026-09-01 (clarification 3건 전부 해소 — 워크스페이스 스코프 확정자, 검수는 제한 롤만, SoD는 매핑에만)
+**Constitution v4.2.1 (2026-09-01)**: 프로젝트 스코프 롤 2종이 범위 밖으로 이동. FR-009 범위 밖 표시, FR-029 확대, SC-019 신설
 **Feature**: [spec.md](../spec.md)
 
 ## Content Quality
