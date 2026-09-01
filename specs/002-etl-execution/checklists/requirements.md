@@ -2,6 +2,7 @@
 
 **Purpose**: Validate specification completeness and quality before proceeding to planning
 **Created**: 2026-08-28
+**정합화 개정 (2026-09-01, 헌법 v4.2.1 · 기능 011·012)**: 유형 명칭 4유형 체계로 정정, 코호트 전제 제거(004 후속지시 5), 실행 단위 2개 순차 규칙 FR-049·050 신설, 가명처리 실패 매핑 FR-051·052 신설, SC-024~027 신설
 **Feature**: [spec.md](../spec.md)
 
 ## Content Quality
