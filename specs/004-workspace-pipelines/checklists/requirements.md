@@ -2,6 +2,7 @@
 
 **Purpose**: Validate specification completeness and quality before proceeding to planning
 **Created**: 2026-08-28
+**Amended**: 2026-09-01 — 기능 012(환자 단위 가명처리 실행)로 일부 규정이 대체·구체화됨. spec.md 상단 개정 고지 참조
 **Feature**: [spec.md](../spec.md)
 
 ## Content Quality

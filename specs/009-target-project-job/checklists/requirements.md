@@ -3,6 +3,8 @@
 **Purpose**: Validate specification completeness and quality before proceeding to planning
 **Created**: 2026-09-01
 **Updated**: 2026-09-01 (Run → Job 명칭 변경 반영)
+**Constitution v4.0.0 (2026-09-01)**: 재검토 필요 — US4의 '연구자가 데이터 워크스페이스 안에서 프로젝트·추출물을 다룬다'는 전제가 개정된 원칙 II와 정합하는지 미확정. 요구사항은 변경하지 않음. spec.md 상단 재검토 고지 참조
+**Constitution v4.2.1 (2026-09-01)**: 프로젝트·추출물 부분이 **범위 밖**으로 판정됨(추출물 소비자=연구자). US4, FR-026~033, FR-037·038, FR-045~052, 관련 Key Entities. 타깃·잡 모델은 범위 안. 삭제 없이 표시만 함
 **Feature**: [spec.md](../spec.md)
 
 ## Content Quality

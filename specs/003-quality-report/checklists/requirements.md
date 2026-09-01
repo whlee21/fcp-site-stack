@@ -2,6 +2,7 @@
 
 **Purpose**: Validate specification completeness and quality before proceeding to planning
 **Created**: 2026-08-28
+**정합화 개정 (2026-09-01, 헌법 v4.2.1)**: 계층 경계 인용을 현행 원칙 II로 정정. 011 시뮬레이션·012 확정 게이트가 이 리포트 대상이 아님을 명시. 요구사항 본문 변경 없음
 **Feature**: [spec.md](../spec.md)
 
 ## Content Quality
