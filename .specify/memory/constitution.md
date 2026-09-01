@@ -1,19 +1,20 @@
 <!--
 Sync Impact Report
 ==================
-Version change: 4.1.0 → 4.1.1
-Rationale: PATCH. 원칙 II·III과 준수 게이트가 이미 쓰고 있던 용어 "제한 대상"과
-"제한 계층"의 정의를 명명 규칙에 추가했다. 새 의무를 만들지 않고, 기존 조항이 요구하던
-것을 문구로 확정할 뿐이다. 유형별 제한 범위 표는 기능 010 FR-013과 011 FR-010~FR-012가
-이미 규정한 내용을 옮긴 것이다.
+Version change: 4.1.1 → 4.2.0
+Rationale: MINOR. 명명 규칙에 데이터 계층 이름 항목을 추가하고, 미결이던
+TODO(PSEUDO_LAYER_NAMING)을 `{ws}_pseudo`로 확정했다. 기존 조항을 바꾸지 않으며 위헌이
+되는 설계도 없다 — 이름이 없던 자리에 이름을 부여하는 확장이므로 PATCH가 아니라 MINOR다.
 
 Modified principles: (없음 — 원칙 본문 변경 없음)
 
 Added sections:
-- 명명 규칙 > 계층 용어 (신규 하위 절) — "제한 대상"(속성)과 "제한 계층"(집합)을 구분해
-  정의하고, 워크스페이스 유형별 제한 범위를 표로 확정한다.
+- 명명 규칙 > 데이터 계층 이름 (신규 항목) — `{ws}_landing`, `{ws}_work`, `{ws}_mart`,
+  `{ws}_pseudo`를 확정하고, 타깃의 물리 스키마와의 소유 경계를 명시한다.
+- 명명 규칙 > 계층 용어의 유형별 표에서 SDM ETL 행을 구체적 계층 이름으로 채웠다.
 
 Removed sections: (없음)
+- TODO(PSEUDO_LAYER_NAMING) 해소되어 제거
 
 Templates requiring review (not modified by this command; they read the
 constitution at runtime):
@@ -22,10 +23,10 @@ constitution at runtime):
 - .specify/templates/tasks-template.md
 - .specify/templates/checklist-template.md
 
-Downstream artifacts aligned with this version:
-- specs/001-workspace-management/spec.md — 제한 계층을 landing·work 고정 집합으로 읽던
-  네 지점(User Story 2 서술, 시나리오 2·3, FR-016, FR-017)을 개정했다. FR-017은 FR-016에
-  흡수되었다. 전수 검색 결과 고정 집합 읽기는 저장소에 남아 있지 않다.
+Downstream artifacts updated alongside this version:
+- specs/011-workspace-provisioning/spec.md — 가명 계층군의 물리 계층을 `{ws}_pseudo`로 명시
+- specs/012-pseudonymization-pipeline/spec.md — 누적 영역이 `{ws}_pseudo`임을 명시하고,
+  확정 집합의 물리 스키마는 기능 009의 타깃 레지스트리가 해석한다는 경계를 기록
 
 Deferred items / TODOs:
 - TODO(PREFECT_SERVING_EXCEPTION): 원칙 IV는 "모델 서빙·학습은 Prefect 밖"을 규정하되
@@ -38,11 +39,6 @@ Deferred items / TODOs:
   모델·전달 경로를 함께 정한다.
 - TODO(PROJECT_EXTRACT_CONSUMER): 기능 009의 프로젝트·추출물을 누가 소비하는지 확정되지
   않았다. 연구자라면 범위 경계에 걸리고, 운영 측 인원이라면 걸리지 않는다.
-- TODO(PSEUDO_LAYER_NAMING): SDM ETL 워크스페이스의 가명 계층군이 어느 물리 계층에
-  놓이는지 정해지지 않았다. 실명 계층군이 `{ws}_landing`·`{ws}_work`·`{ws}_mart`를 쓰므로
-  가명 계층군에는 별도의 layer 값이 필요하다. Object store 경로 규칙 `{ws}/{layer}/...`가
-  layer 값을 요구하므로, 이 값이 없으면 경로가 성립하지 않는다. 확정되면 이 섹션의 표와
-  기능 011·012를 함께 갱신해야 한다.
 -->
 
 # EVIX Site Stack Constitution
@@ -197,6 +193,12 @@ Rationale: 연구자 기능을 "미구현"으로 두면 누군가가 편의를 �
 - 워크스페이스 ID: 소문자 슬러그. 한번 정해지면 변경 불가(MUST NOT change).
 - Qdrant 컬렉션: `concept_{vocabversion}_{modelname}_{modelversion}`
 - OpenSearch 인덱스: Qdrant와 동일 규칙 + 별칭(alias) 전환으로 무중단 교체
+- 데이터 계층 이름: `{ws}_landing`, `{ws}_work`, `{ws}_mart`, `{ws}_pseudo`
+  - `{ws}_pseudo`는 가명처리를 거친 산출물이 놓이는 계층이다. SDM ETL 워크스페이스만 갖는다.
+  - 계층 이름은 경로 규칙의 `{layer}` 값이 된다(`landing`, `work`, `mart`, `pseudo`).
+  - **타깃의 물리 스키마 이름은 이 규칙의 대상이 아니다.** 타깃은 기능 009의 레지스트리가
+    소유하며 논리 이름과 물리 스키마를 분리한다. 계층은 접근 통제의 단위이고, 타깃 물리
+    스키마는 산출물 보존의 단위다 — 층위가 다르다.
 - Object store 경로: `{ws}/{layer}/{yyyymmdd}/{flow_run_id}/`
 
 Rationale: vocabulary·모델 버전을 이름에 박아 두면 재색인과 롤백이 이름 교체로 끝난다.
@@ -216,7 +218,7 @@ Rationale: vocabulary·모델 버전을 이름에 박아 두면 재색인과 롤
 
 | 워크스페이스 유형 | 제한 계층 | 근거 |
 | --- | --- | --- |
-| SDM ETL | 실명 계층군과 가명 계층군의 **모든 계층** | 원칙 II, 기능 011 FR-010·FR-011 |
+| SDM ETL | `{ws}_landing`, `{ws}_work`, `{ws}_mart`, `{ws}_pseudo` **전부** | 원칙 II, 기능 011 FR-010·FR-011 |
 | OMOP CDM ETL | `{ws}_landing`, `{ws}_work`, `{ws}_mart` **전부** | 원칙 II, 기능 011 FR-012 |
 | SDM Vocabulary/Mapping 관리 | **없음** — PHI 제한 계층을 두지 않는다. 읽기는 배정으로, 내용 변경은 운영 롤로 통제한다 | 기능 010 FR-013·FR-014 |
 | OMOP CDM Vocabulary/Mapping 관리 | **없음** — 위와 같다 | 기능 010 FR-013·FR-014 |
@@ -228,9 +230,9 @@ Rationale: v4.0.0이 환자 데이터 워크스페이스의 전 계층을 제한
 때문이다 — 준수 게이트가 "새 워크스페이스·계층·롤을 추가할 때 접근 제한 대상 여부를 함께
 명시"하도록 요구하는 것과 같은 취지다.
 
-가명 계층군이 어느 물리 계층에 놓이는지는 아직 정해지지 않았다
-(`TODO(PSEUDO_LAYER_NAMING)`). 그 값이 정해지면 위 표의 SDM ETL 행을 구체적인 계층
-이름으로 채운다.
+가명 계층군은 `{ws}_pseudo` 하나로 이루어진다. 실명 계층군이 landing→work→mart의 단계를
+갖는 것과 달리 가명 계층군에 단계가 없는 이유는, 가명처리가 이미 실명 mart를 입력으로 받는
+변환이어서 그 안에서 다시 적재·가공 단계를 나눌 것이 없기 때문이다.
 
 ## 준수 게이트
 
@@ -264,4 +266,4 @@ Rationale: v4.0.0이 환자 데이터 워크스페이스의 전 계층을 제한
 - 준수 검토는 각 기능의 스펙·플랜 단계와 머지 전 리뷰에서 최소 두 번 수행한다.
 - 복잡도는 정당화되어야 한다. 원칙을 우회하려는 설계는 그 자체로 결함이다.
 
-**Version**: 4.1.1 | **Ratified**: 2026-08-28 | **Last Amended**: 2026-09-01
+**Version**: 4.2.0 | **Ratified**: 2026-08-28 | **Last Amended**: 2026-09-01

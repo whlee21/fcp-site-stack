@@ -4,6 +4,7 @@
 **Created**: 2026-09-01
 **Updated**: 2026-09-01 (clarification 3건 전부 해소 — 전건 검수+일괄 승인, 실명 계층 원문 대조, 확정 집합=frozen 타깃. FR-062·SC-035까지 확장)
 **Constitution v3.0.0 (2026-09-01)**: FR-005·FR-037 개정, FR-063 신설(임시 우회 경로 금지), SC-004 강화, SC-036·SC-037 신설. 연구자용 분석 워크스페이스는 Out of Scope로 이동
+**Constitution v4.2.0 (2026-09-01)**: 누적 영역이 `{ws}_pseudo`임을 명시. 확정 집합의 물리 스키마는 009 타깃 레지스트리 소유로 경계 기록 (FR-004·Key Entities)
 **Feature**: [spec.md](../spec.md)
 
 ## Content Quality
