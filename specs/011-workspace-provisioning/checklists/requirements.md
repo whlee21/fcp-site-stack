@@ -5,6 +5,7 @@
 **Updated**: 2026-09-01 (clarification 3건 전부 해소 — 실데이터 표본, 수동 폐기, 물리 병합. FR-063·SC-028까지 확장)
 **Constitution v3.0.0 (2026-09-01)**: FR-011 개정(가명 계층군도 제한 대상), SC-004 분할, SC-035·SC-036 신설, FR-070 완화(넓어지는 것만 금지). Assumptions의 헌법 II 미결 항목 해소 — 방향은 계층 개방이 아니라 그 반대
 **Constitution v4.0.0 (2026-09-01)**: FR-012 개정(OMOP CDM ETL mart도 제한 대상), SC-004 재정의, SC-036 확대, US2 서술·Independent Test·시나리오 8 개정. 계열 비대칭 해소를 Assumptions에 기록
+**기능 013 (2026-09-01)**: FR-038 개정 — 확정 권한이 전역 플랫폼 운영자에서 워크스페이스 스코프 `파이프라인 확정자` 롤로 이동
 **Feature**: [spec.md](../spec.md)
 
 ## Content Quality
